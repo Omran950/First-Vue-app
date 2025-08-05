@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import MainLayout from '@/layouts/MainLayout.vue'
 import SecondView from '@/views/SecondView.vue'
 import ThirdView from '@/views/ThirdView.vue'
+import NotFound from '@/views/NotFound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
           component: ThirdView,
         },
       ],
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound,
     },
   ],
 })
