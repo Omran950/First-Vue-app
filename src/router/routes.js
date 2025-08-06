@@ -11,4 +11,8 @@ export const routes = [
     title: 'Third',
     value: 'third',
   },
+  {
+    title: 'Viewer',
+    value: 'viewer',
+  },
 ]

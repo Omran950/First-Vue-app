@@ -4,6 +4,7 @@ import MainLayout from '@/layouts/MainLayout.vue'
 import SecondView from '@/views/SecondView.vue'
 import ThirdView from '@/views/ThirdView.vue'
 import NotFound from '@/views/NotFound.vue'
+import Viewer from '@/components/Viewer.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
           path: '/third',
           name: 'Third',
           component: ThirdView,
+        },
+        {
+          path: '/viewer',
+          name: 'Viewer',
+          component: Viewer,
         },
       ],
     },
