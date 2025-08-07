@@ -13,7 +13,7 @@ const URN =
 
 onMounted(async () => {
   try {
-    const response = await fetch('/api/auth/token') // ← hits your backend
+    const response = await fetch('http://omran-production.up.railway.app/api/auth/token')
     const { access_token } = await response.json()
 
     const options = {
