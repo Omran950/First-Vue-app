@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100vh; width: 100%">
-    <div ref="viewerRef" style=""></div>
+    <div ref="viewerRef" style="height: 100%; width: 100%"></div>
   </div>
 </template>
 
@@ -11,18 +11,44 @@ const viewerRef = ref(null)
 const URN =
   'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6a3R6a2Nub3I3dmw1bGdkOXZ6anUybXJ2ZXFzaG42d2x5MXdndHdqY3VhdXhyYjZkLWJhc2ljLWFwcC9zYWRlY2UlMjBldi5mYng'
 
+// Helper to load JS file dynamically
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = src
+    script.type = 'module' // so ES6 imports inside LoggerExtension.js work
+    script.onload = resolve
+    script.onerror = reject
+    document.head.appendChild(script)
+  })
+}
+
 onMounted(async () => {
   try {
+    // 1) Load your extension file from public/extensions
+    await loadScript('/extensions/LoggerExtension.js')
+    await loadScript('/extensions/SummaryExtension.js')
+    await loadScript('/extensions/HistogramExtension.js')
+    await loadScript('/extensions/DataGridExtension.js')
+
+    // 2) Get Forge token from your backend
     const response = await fetch('https://omran-production.up.railway.app/api/auth/token')
     const { access_token } = await response.json()
 
+    // 3) Viewer initialization options with extension
     const options = {
       env: 'AutodeskProduction',
       accessToken: access_token,
+      extensions: [
+        'LoggerExtension',
+        'SummaryExtension',
+        'HistogramExtension',
+        'DataGridExtension',
+      ], // tell viewer to load it
     }
 
     Autodesk.Viewing.Initializer(options, () => {
-      const viewer = new Autodesk.Viewing.GuiViewer3D(viewerRef.value)
+      const viewer = new Autodesk.Viewing.GuiViewer3D(viewerRef.value, options)
       viewer.start()
 
       Autodesk.Viewing.Document.load(
