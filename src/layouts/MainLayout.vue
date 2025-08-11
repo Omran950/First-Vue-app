@@ -2,7 +2,7 @@
   <v-card>
     <v-layout>
       <v-main>
-        <RouterView />
+        <div style="transform: scale(0.8); transform-origin: top"><RouterView /></div>
       </v-main>
     </v-layout>
   </v-card>

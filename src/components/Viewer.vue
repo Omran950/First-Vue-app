@@ -44,6 +44,8 @@ onMounted(async () => {
         'SummaryExtension',
         'HistogramExtension',
         'DataGridExtension',
+        'Autodesk.Viewing.MarkupsCore',
+        'Autodesk.Viewing.MarkupsGui',
       ], // tell viewer to load it
     }
 
