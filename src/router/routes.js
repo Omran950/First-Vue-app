@@ -1,6 +1,1 @@
-export const routes = [
-  {
-    title: 'Viewer',
-    value: '',
-  },
-]
+export const routes = [{ title: 'Viewer', value: '/' }]

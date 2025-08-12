@@ -1,6 +1,8 @@
 <template>
-  <div style="height: 100vh; width: 100%">
-    <div ref="viewerRef" style="height: 100%; width: 100%"></div>
+  <div style="transform: scale(0.8); margin-block: -68px">
+    <div style="height: 100vh; width: 100%">
+      <div ref="viewerRef" style="height: 100%; width: 100%"></div>
+    </div>
   </div>
 </template>
 

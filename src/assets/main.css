@@ -1,3 +1,114 @@
-.adsk-button-icon {
+/* Global thin scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #607d8b transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #607d8b, #90a4ae);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #90a4ae, #607d8b);
+}
+
+/* custom extensions styling */
+#dashboard-toolbar-group,
+#modelTools,
+#settingsTools,
+#navTools,
+#toolbar-cameraSubmenuToolSubMenu,
+#measureTools,
+#model-summary-panel .docking-panel-title,
+#dashboard-barchart-panel .docking-panel-title,
+#dashboard-piechart-panel .docking-panel-title,
+#dashboard-datagrid-panel .docking-panel-title,
+.docking-panel.docking-panel-container-solid-color-b.measure-settings-popup {
+  background-color: #546e7a;
+}
+
+.adsk-viewing-viewer.dark-theme .adsk-button.active,
+.adsk-viewing-viewer.dark-theme .adsk-button:focus,
+.adsk-button:hover {
+  color: #263238 !important;
+  border-color: #263238 !important;
+  transition: color 0.3s ease;
+}
+
+/* markup menu */
+.lmv-markup-gui-toolbar-content {
+  background-color: #263238;
+  padding: 16px;
   color: white;
+  border-radius: 10px;
+  overflow-y: auto;
+  max-height: 90vh;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.lmv-markup-gui-editMode button {
+  display: block;
+}
+
+.lmv-markup-gui-style-options {
+  margin-bottom: 10px;
+}
+
+.lmv-markup-gui-editMode select {
+  color: wheat;
+  background-color: #3a4c55;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.lmv-markup-gui-cut,
+.lmv-markup-gui-copy,
+.lmv-markup-gui-paste {
+  display: inline-block !important;
+  margin: 10px 4px;
+  text-align: center;
+  width: 24%;
+}
+
+.lmv-markup-gui-delete,
+.lmv-markup-gui-duplicate {
+  display: inline-block !important;
+  margin: 10px 4px;
+  width: 40%;
+}
+
+.lmv-markup-gui-editMode button,
+.lmv-markup-gui-toolbar-content .lmv-markup-gui-collapse-btn,
+.lmv-markup-gui-toolbar-content .lmv-markup-editmode-done {
+  background-color: #3a4c55;
+  border-radius: 4px;
+  margin-right: 4px;
+  color: wheat;
+  padding: 4px;
+}
+.lmv-markup-gui-editMode button:hover {
+  background-color: #496c7d;
+}
+
+.lmv-markup-gui-editMode .lmv-markup-gui-undo,
+.lmv-markup-gui-editMode .lmv-markup-gui-redo,
+.lmv-markup-gui-toolbar-content .lmv-markup-gui-collapse-btn,
+.lmv-markup-gui-toolbar-content .lmv-markup-editmode-done {
+  width: 40%;
+  display: inline-block !important;
+  margin: 10px 4px;
 }
