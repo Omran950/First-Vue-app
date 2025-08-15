@@ -53,7 +53,7 @@
   color: white;
   border-radius: 10px;
   overflow-y: auto;
-  max-height: 90vh;
+  max-height: 500px;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
@@ -111,4 +111,17 @@
   width: 40%;
   display: inline-block !important;
   margin: 10px 4px;
+}
+
+#dashboard-toolbar-group #summary-button div.adsk-button-icon {
+  background-image: url('/sheet-icon.svg') !important;
+}
+#dashboard-toolbar-group #dashboard-barchart-button div.adsk-button-icon {
+  background-image: url('/chart-bar-popular.svg') !important;
+}
+#dashboard-toolbar-group #dashboard-piechart-button div.adsk-button-icon {
+  background-image: url('/chart-pie.svg') !important;
+}
+#dashboard-toolbar-group #dashboard-datagrid-button div.adsk-button-icon {
+  background-image: url('/grid-4x4.svg') !important;
 }

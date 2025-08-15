@@ -1,6 +1,6 @@
 <template>
-  <div style="transform: scale(0.8); margin-block: -68px">
-    <div style="height: 100vh; width: 100%">
+  <div style="width: 100%; height: 100vh; position: relative">
+    <div style="position: absolute; inset: 50px; border: 2px solid teal">
       <div ref="viewerRef" style="height: 100%; width: 100%"></div>
     </div>
   </div>
