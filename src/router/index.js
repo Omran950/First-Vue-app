@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MainLayout from '@/layouts/MainLayout.vue'
 import NotFound from '@/views/NotFound.vue'
-import Viewer from '@/components/Viewer.vue'
+import ViewerWithButtons from '@/components/ViewerWithButtons.vue'
+import ViewerWithoutButtons from '@/components/ViewerWithoutButtons.vue'
+import ViewerTest from '@/components/ViewerTest.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,7 +15,17 @@ const router = createRouter({
         {
           path: '/',
           name: 'Viewer',
-          component: Viewer,
+          component: ViewerWithButtons,
+        },
+        {
+          path: '/without-buttons',
+          name: 'ViewerWithoutButtons',
+          component: ViewerWithoutButtons,
+        },
+        {
+          path: '/test',
+          name: 'ViewerTest',
+          component: ViewerTest,
         },
       ],
     },

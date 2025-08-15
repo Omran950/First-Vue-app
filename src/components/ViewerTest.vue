@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100vh; position: relative">
-    <div style="position: absolute; inset: 50px; border: 2px solid teal">
+    <div style="position: absolute; inset: 80px; border: 2px solid teal">
       <div ref="viewerRef" style="height: 100%; width: 100%"></div>
     </div>
   </div>
@@ -13,12 +13,11 @@ const viewerRef = ref(null)
 const URN =
   'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6a3R6a2Nub3I3dmw1bGdkOXZ6anUybXJ2ZXFzaG42d2x5MXdndHdqY3VhdXhyYjZkLWJhc2ljLWFwcC9zYWRlY2UlMjBldi5mYng'
 
-// Helper to load JS file dynamically
 function loadScript(src) {
   return new Promise((resolve, reject) => {
     const script = document.createElement('script')
     script.src = src
-    script.type = 'module' // so ES6 imports inside LoggerExtension.js work
+    script.type = 'module'
     script.onload = resolve
     script.onerror = reject
     document.head.appendChild(script)
@@ -27,17 +26,14 @@ function loadScript(src) {
 
 onMounted(async () => {
   try {
-    // 1) Load your extension file from public/extensions
     await loadScript('/extensions/LoggerExtension.js')
     await loadScript('/extensions/SummaryExtension.js')
     await loadScript('/extensions/HistogramExtension.js')
     await loadScript('/extensions/DataGridExtension.js')
 
-    // 2) Get Forge token from your backend
     const response = await fetch('https://omran-production.up.railway.app/api/auth/token')
     const { access_token } = await response.json()
 
-    // 3) Viewer initialization options with extension
     const options = {
       env: 'AutodeskProduction',
       accessToken: access_token,
@@ -48,12 +44,19 @@ onMounted(async () => {
         'DataGridExtension',
         'Autodesk.Viewing.MarkupsCore',
         'Autodesk.Viewing.MarkupsGui',
-      ], // tell viewer to load it
+      ],
     }
 
     Autodesk.Viewing.Initializer(options, () => {
       const viewer = new Autodesk.Viewing.GuiViewer3D(viewerRef.value, options)
       viewer.start()
+      viewer.loadExtension('Autodesk.Viewing.MarkupsCore').then((ext) => {
+        const markupsCore = ext
+        markupsCore.addEventListener(
+          Autodesk.Viewing.Extensions.Markups.Core.EVENT_EDITMODE_CHANGED,
+          () => markupsCore.disableMarkupInteractions(true),
+        )
+      })
 
       Autodesk.Viewing.Document.load(
         `urn:${URN}`,

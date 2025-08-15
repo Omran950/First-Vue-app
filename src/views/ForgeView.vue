@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import Viewer from '@/components/Viewer.vue'
+import Viewer from '@/components/ViewerWithButtons.vue'
 </script>
