@@ -124,7 +124,7 @@ onMounted(async () => {
           const index = selectedMarkups.value.findIndex((markup) => markup.id === pushedMarkup.id)
 
           if (multiSelectEnabled) {
-            // Multi-select toggle
+            // ✅ Multi-select toggle logic
             if (index === -1) {
               if (!pushedMarkup.originalStyle) {
                 pushedMarkup.originalStyle = { ...pushedMarkup.style }
@@ -137,28 +137,38 @@ onMounted(async () => {
                 'fill-opacity': 0.2,
               })
             } else {
-              // Remove + restore
+              // Remove + reset style
               selectedMarkups.value.splice(index, 1)
               if (pushedMarkup.originalStyle) {
                 pushedMarkup.setStyle(pushedMarkup.originalStyle)
               }
             }
           } else {
-            // Single select → reset all, then add current
-            selectedMarkups.value.forEach((markup) => {
-              if (markup.originalStyle) markup.setStyle(markup.originalStyle)
-            })
-            selectedMarkups.value = [pushedMarkup]
+            // ✅ Single select logic
+            if (index !== -1 && selectedMarkups.value.length === 1) {
+              // Case: clicked the only selected element → deselect it
+              selectedMarkups.value.splice(index, 1)
+              if (pushedMarkup.originalStyle) {
+                pushedMarkup.setStyle(pushedMarkup.originalStyle)
+              }
+            } else {
+              // Case: clicked a new element OR there were multiple selected → clear all and keep only this one
+              selectedMarkups.value.forEach((markup) => {
+                if (markup.originalStyle) markup.setStyle(markup.originalStyle)
+              })
 
-            if (!pushedMarkup.originalStyle) {
-              pushedMarkup.originalStyle = { ...pushedMarkup.style }
+              selectedMarkups.value = [pushedMarkup]
+
+              if (!pushedMarkup.originalStyle) {
+                pushedMarkup.originalStyle = { ...pushedMarkup.style }
+              }
+              pushedMarkup.setStyle({
+                'stroke-color': '#00ff00',
+                'stroke-width': 5,
+                'fill-color': '#00ff00',
+                'fill-opacity': 0.2,
+              })
             }
-            pushedMarkup.setStyle({
-              'stroke-color': '#00ff00',
-              'stroke-width': 5,
-              'fill-color': '#00ff00',
-              'fill-opacity': 0.2,
-            })
           }
 
           console.log('Selected markups:', selectedMarkups.value)
@@ -190,6 +200,7 @@ function startArrowDrawing() {
 
   // Clear array (reactive)
   selectedMarkups.value = []
+  console.log(selectedMarkups.value)
 
   markupsCoreButton.disableMarkupInteractions(true)
 }
