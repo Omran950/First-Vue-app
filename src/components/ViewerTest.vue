@@ -51,6 +51,7 @@ onMounted(async () => {
       const viewer = new Autodesk.Viewing.GuiViewer3D(viewerRef.value, options)
       viewer.start()
       viewer.loadExtension('Autodesk.Viewing.MarkupsCore').then((ext) => {
+        console.log(ext)
         const markupsCore = ext
         markupsCore.addEventListener(
           Autodesk.Viewing.Extensions.Markups.Core.EVENT_EDITMODE_CHANGED,
