@@ -23,8 +23,25 @@
         Select Shapes
       </button>
     </div>
+
+    <!-- Viewer -->
     <div style="position: absolute; inset: 80px; border: 2px solid teal">
       <div ref="viewerRef" style="height: 100%; width: 100%"></div>
+    </div>
+
+    <!-- Debug info -->
+    <div
+      style="
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background: #fff;
+        padding: 5px;
+        border: 1px solid teal;
+        font-size: 12px;
+      "
+    >
+      Selected: {{ selectedMarkups.length }}
     </div>
   </div>
 </template>
@@ -34,6 +51,10 @@ import { onMounted, ref } from 'vue'
 
 const viewerRef = ref(null)
 let markupsCoreButton = null // store MarkupsCore instance
+
+// ✅ Reactive array
+const selectedMarkups = ref([])
+
 const URN =
   'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6a3R6a2Nub3I3dmw1bGdkOXZ6anUybXJ2ZXFzaG42d2x5MXdndHdqY3VhdXhyYjZkLWJhc2ljLWFwcC9zYWRlY2UlMjBldi5mYng'
 
@@ -76,44 +97,39 @@ onMounted(async () => {
       viewer.start()
 
       viewer.loadExtension('Autodesk.Viewing.MarkupsCore').then((markupsCore) => {
-        let selectedMarkups = []
         let multiSelectEnabled = false
         const core = Autodesk.Viewing.Extensions.Markups.Core
         markupsCoreButton = markupsCore
 
+        // Ctrl + Shift = multi-select mode
         window.addEventListener('keydown', (e) => {
-          if (e.ctrlKey && e.shiftKey) {
-            multiSelectEnabled = true
-          }
+          if (e.ctrlKey && e.shiftKey) multiSelectEnabled = true
         })
-
         window.addEventListener('keyup', (e) => {
-          if (!e.ctrlKey || !e.shiftKey) {
-            multiSelectEnabled = false
-          }
+          if (!e.ctrlKey || !e.shiftKey) multiSelectEnabled = false
         })
 
+        // Disable interactions after creating a shape
         markupsCore.addEventListener(core.EVENT_EDITMODE_CHANGED, (ev) => {
           const editMode = ev.target
-          console.log(editMode)
           if (!editMode) return
-
-          editMode.addEventListener(core.EVENT_EDITMODE_CREATION_END, (event) => {
+          editMode.addEventListener(core.EVENT_EDITMODE_CREATION_END, () => {
             markupsCore.disableMarkupInteractions(true)
           })
         })
 
+        // Shape selection
         markupsCore.addEventListener(core.EVENT_MARKUP_SELECTED, (event) => {
           const pushedMarkup = event.target
-          const index = selectedMarkups.findIndex((markup) => markup.id === pushedMarkup.id)
+          const index = selectedMarkups.value.findIndex((markup) => markup.id === pushedMarkup.id)
 
           if (multiSelectEnabled) {
-            // Multi-select toggle logic
+            // Multi-select toggle
             if (index === -1) {
               if (!pushedMarkup.originalStyle) {
                 pushedMarkup.originalStyle = { ...pushedMarkup.style }
               }
-              selectedMarkups.push(pushedMarkup)
+              selectedMarkups.value.push(pushedMarkup)
               pushedMarkup.setStyle({
                 'stroke-color': '#00ff00',
                 'stroke-width': 5,
@@ -121,19 +137,18 @@ onMounted(async () => {
                 'fill-opacity': 0.2,
               })
             } else {
-              // Remove + reset style
-              selectedMarkups.splice(index, 1)
+              // Remove + restore
+              selectedMarkups.value.splice(index, 1)
               if (pushedMarkup.originalStyle) {
                 pushedMarkup.setStyle(pushedMarkup.originalStyle)
               }
             }
           } else {
-            // 🔄 Always clear and keep only this shape
-            selectedMarkups.forEach((markup) => {
+            // Single select → reset all, then add current
+            selectedMarkups.value.forEach((markup) => {
               if (markup.originalStyle) markup.setStyle(markup.originalStyle)
             })
-
-            selectedMarkups = [pushedMarkup]
+            selectedMarkups.value = [pushedMarkup]
 
             if (!pushedMarkup.originalStyle) {
               pushedMarkup.originalStyle = { ...pushedMarkup.style }
@@ -146,7 +161,7 @@ onMounted(async () => {
             })
           }
 
-          console.log('Selected markups:', selectedMarkups)
+          console.log('Selected markups:', selectedMarkups.value)
         })
       })
 
@@ -156,9 +171,7 @@ onMounted(async () => {
           const defaultModel = doc.getRoot().getDefaultGeometry()
           viewer.loadDocumentNode(doc, defaultModel)
         },
-        (err) => {
-          console.error('Document load error:', err)
-        },
+        (err) => console.error('Document load error:', err),
       )
     })
   } catch (error) {
@@ -166,13 +179,22 @@ onMounted(async () => {
   }
 })
 
-// Switch to arrow tool without selecting existing shapes
+// Switch to arrow tool
 function startArrowDrawing() {
   if (!markupsCoreButton) return
+
+  // Reset styles
+  selectedMarkups.value.forEach((markup) => {
+    if (markup.originalStyle) markup.setStyle(markup.originalStyle)
+  })
+
+  // Clear array (reactive)
+  selectedMarkups.value = []
+
   markupsCoreButton.disableMarkupInteractions(true)
 }
 
-// Re-enable interactions to select/resize shapes
+// Enable selecting shapes
 function enableShapeEditing() {
   if (!markupsCoreButton) return
   markupsCoreButton.disableMarkupInteractions(false)
