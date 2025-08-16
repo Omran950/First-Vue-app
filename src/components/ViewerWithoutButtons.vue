@@ -50,18 +50,12 @@ onMounted(async () => {
     Autodesk.Viewing.Initializer(options, () => {
       const viewer = new Autodesk.Viewing.GuiViewer3D(viewerRef.value, options)
       viewer.start()
-
       viewer.loadExtension('Autodesk.Viewing.MarkupsCore').then((markupsCore) => {
         const core = Autodesk.Viewing.Extensions.Markups.Core
-
         markupsCore.addEventListener(core.EVENT_EDITMODE_CHANGED, (ev) => {
           const editMode = ev.target
-          console.log(editMode)
           if (!editMode) return
-
           editMode.addEventListener(core.EVENT_EDITMODE_CREATION_END, (event) => {
-            console.log(event, 'A markup has been created (any shape) — locking interactions now')
-            // Disable all interactions with markups in Edit mode
             markupsCore.disableMarkupInteractions(true)
           })
         })

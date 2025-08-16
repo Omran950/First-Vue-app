@@ -4,6 +4,8 @@ import NotFound from '@/views/NotFound.vue'
 import ViewerWithButtons from '@/components/ViewerWithButtons.vue'
 import ViewerWithoutButtons from '@/components/ViewerWithoutButtons.vue'
 import ViewerTest from '@/components/ViewerTest.vue'
+import IdleMode from '@/components/SelectionModeOnly.vue'
+import SelectionModeOnly from '@/components/SelectionModeOnly.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +28,11 @@ const router = createRouter({
           path: '/test',
           name: 'ViewerTest',
           component: ViewerTest,
+        },
+        {
+          path: '/selection-only',
+          name: 'SelectionModeOnly',
+          component: SelectionModeOnly,
         },
       ],
     },
