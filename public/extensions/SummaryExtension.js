@@ -12,7 +12,6 @@ class SummaryExtension extends BaseExtension {
 
   load() {
     super.load()
-    console.log('SummaryExtension loaded.')
     return true
   }
 
@@ -27,7 +26,6 @@ class SummaryExtension extends BaseExtension {
       this._panel.uninitialize()
       this._panel = null
     }
-    console.log('SummaryExtension unloaded.')
     return true
   }
 

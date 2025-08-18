@@ -17,7 +17,6 @@ class HistogramExtension extends BaseExtension {
       'Chart',
     )
     Chart.defaults.plugins.legend.display = false
-    console.log('HistogramExtension loaded.')
     return true
   }
 
@@ -32,7 +31,6 @@ class HistogramExtension extends BaseExtension {
       panel.uninitialize()
     }
     this._barChartPanel = this._pieChartPanel = null
-    console.log('HistogramExtension unloaded.')
     return true
   }
 

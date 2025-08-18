@@ -17,7 +17,6 @@ class DataGridExtension extends BaseExtension {
       ),
       this.loadStylesheet('https://unpkg.com/tabulator-tables@4.9.3/dist/css/tabulator.min.css'),
     ])
-    console.log('DataGridExtension loaded.')
     return true
   }
 
@@ -32,7 +31,6 @@ class DataGridExtension extends BaseExtension {
       this._panel.uninitialize()
       this._panel = null
     }
-    console.log('DataGridExtension unloaded.')
     return true
   }
 
