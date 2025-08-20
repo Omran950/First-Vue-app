@@ -6,6 +6,7 @@ import ViewerWithoutButtons from '@/components/ViewerWithoutButtons.vue'
 import ViewerTest from '@/components/ViewerTest.vue'
 import IdleMode from '@/components/SelectionModeOnly.vue'
 import SelectionModeOnly from '@/components/SelectionModeOnly.vue'
+import Svg from '@/components/Svg.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
           path: '/selection-only',
           name: 'SelectionModeOnly',
           component: SelectionModeOnly,
+        },
+        {
+          path: '/svg',
+          name: 'Svg',
+          component: Svg,
         },
       ],
     },
